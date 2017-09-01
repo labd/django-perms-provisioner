@@ -17,12 +17,7 @@ class Command(BaseCommand):
         for group in Group.objects.all():
             yaml_file.write(group.name + ":\n")
             for permission in group.permissions.all():
-                yaml_file.write('  "')
-                yaml_file.write(permission.content_type.app_label)
-                yaml_file.write('.')
-                yaml_file.write(permission.codename)
-                yaml_file.write('": ')
-                yaml_file.write('"')
-                yaml_file.write(permission.content_type.model)
-                yaml_file.write('"\n')
+                yaml_file.write('  "{}.{}": "{}"\n'.format(permission.content_type.app_label,
+                                                           permission.codename,
+                                                           permission.content_type.model))
         yaml_file.close()
