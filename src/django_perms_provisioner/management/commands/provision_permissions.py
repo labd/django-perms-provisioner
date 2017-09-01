@@ -1,10 +1,10 @@
-from django.contrib.auth.models import Group, Permission
-from django.core.exceptions import ObjectDoesNotExist
+""" manage.py command """
+from django.contrib.auth.models import Group
 from django.core.management import BaseCommand
 
 
 class Command(BaseCommand):
-    """ Generate yaml file from groups and permissions"""
+    """ Generate yaml file from groups and permissions """
 
     def add_arguments(self, parser):
         parser.add_argument('file_name', nargs='+', type=str)
