@@ -71,8 +71,6 @@ class Command(BaseCommand):
         with open(path, 'r') as stream:
             permissionconfig = yaml_obj.load(stream)
             self.config = permissionconfig
-
-        print(permissionconfig)
         for group in Group.objects.all():
             if group.name not in permissionconfig.keys():
                 self.create_comment(group.name)
@@ -162,7 +160,6 @@ class Command(BaseCommand):
                             self.stdout.write("Deleted permission: {}".format(name))
                         i -= 1
                 for model in permissionconfig[groupname]:
-                    print(model)
                     if len(permissionconfig[groupname][model]) < 1:
                         del permissionconfig[groupname][model]
                         self.stdout.write("Deleted model: {}".format(name))
