@@ -3,10 +3,8 @@ from django.contrib.auth.models import Group
 from django.core.management import BaseCommand
 from ruamel.yaml import YAML, RoundTripDumper
 from ruamel import yaml
-from ruamel.yaml.comments import CommentedMap
-from ruamel.yaml.error import CommentMark, StreamMark
+from ruamel.yaml.error import StreamMark
 from ruamel.yaml.tokens import CommentToken
-import sys
 
 class Command(BaseCommand):
     """ Generate yaml file from groups and permissions """
@@ -56,7 +54,6 @@ class Command(BaseCommand):
     def generate_yaml_file(self, path):
         """ Generate the yaml file """
         permissions = {}
-
         for group in Group.objects.all():
             permissions[group.name] = {}
             for permission in group.permissions.all():
@@ -65,22 +62,8 @@ class Command(BaseCommand):
                 val = "{}.{}".format(permission.content_type.app_label, permission.codename)
                 permissions[group.name][permission.content_type.model].append(val)
         yaml_file = open(path, 'w')
-        yaml.dump(permissions, yaml_file, default_flow_style=False,explicit_start=True)
+        yaml.dump(permissions, yaml_file, default_flow_style=False, explicit_start=True)
         yaml_file.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     def updateconfig(self, path):
         """ updateconfig file """
         permissionconfig = {}
@@ -148,8 +131,6 @@ class Command(BaseCommand):
                                                                      None,
                                                                      "- {}".format(value),
                                                                      indent)
-        
-
     def make_comment(self, value, indent):
         """ Creates a comment at the top of the file """
         start_mark = StreamMark(None, 5, 2, indent)   # column 0
