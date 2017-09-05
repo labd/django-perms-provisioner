@@ -15,37 +15,46 @@ Example config
 
 =============
 ```yaml
+    ---
+    # admin:
+        # logentry:
+        # - admin.add_logentry
+        # - admin.change_logentry
+        # - admin.delete_logentry
     test:
-        # admin.add_logentry: logentry
-        # admin.change_logentry: logentry
-        # admin.delete_logentry: logentry
-        auth.add_group: group
-        auth.change_group: group
-        auth.delete_group: group
-        auth.add_permission: permission
-        auth.change_permission: permission
-        auth.delete_permission: permission
-        contenttypes.add_contenttype: contenttype
-        contenttypes.change_contenttype: contenttype
-        contenttypes.delete_contenttype: contenttype
-        robots.add_rule: rule
-        robots.change_rule: rule
-        robots.delete_rule: rule
-        robots.add_url: url
-        robots.change_url: url
-        robots.delete_url: url
-        sessions.add_session: session
-        sessions.change_session: session
-        sessions.delete_session: session
-        sites.add_site: site
-        sites.change_site: site
-        sites.delete_site: site
-        user.add_user: user
-        user.change_user: user
-        user.delete_user: user
-    admin:
-        # admin.add_logentry: logentry
-        # admin.change_logentry: logentry
-        # admin.delete_logentry: logentry
-    {}
+        # contenttype:
+        # - contenttypes.add_contenttype
+        # - contenttypes.change_contenttype
+        # - contenttypes.delete_contenttype
+        group:
+        - auth.change_group
+        - auth.delete_group
+        logentry:
+        - admin.add_logentry
+        - admin.change_logentry
+        - admin.delete_logentry
+        permission:
+        - auth.add_permission
+        - auth.change_permission
+        - auth.delete_permission
+        rule:
+        - robots.add_rule
+        - robots.change_rule
+        - robots.delete_rule
+        session:
+        - sessions.add_session
+        - sessions.change_session
+        - sessions.delete_session
+        site:
+        - sites.add_site
+        - sites.change_site
+        - sites.delete_site
+        url:
+        - robots.add_url
+        - robots.change_url
+        - robots.delete_url
+        user:
+        - user.add_user
+        - user.change_user
+        - user.delete_user
 ```

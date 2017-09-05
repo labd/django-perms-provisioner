@@ -1,11 +1,12 @@
 """ manage.py command """
 from django.contrib.auth.models import Group
 from django.core.management import BaseCommand
-from ruamel.yaml import YAML
+from ruamel.yaml import YAML, RoundTripDumper
+from ruamel import yaml
 from ruamel.yaml.comments import CommentedMap
 from ruamel.yaml.error import CommentMark, StreamMark
 from ruamel.yaml.tokens import CommentToken
-
+import sys
 
 class Command(BaseCommand):
     """ Generate yaml file from groups and permissions """
@@ -52,59 +53,102 @@ class Command(BaseCommand):
         else:
             self.generate_yaml_file(path)
 
-    def generate_yaml_file(self,path):
+    def generate_yaml_file(self, path):
         """ Generate the yaml file """
-        yaml_file = open(path, 'w')
-        yaml_file.write("---")
-        yaml_file.write('\n')
+        permissions = {}
+
         for group in Group.objects.all():
-            yaml_file.write(group.name + ":\n")
+            permissions[group.name] = {}
             for permission in group.permissions.all():
-                yaml_file.write('  "{}.{}": "{}"\n'.format(permission.content_type.app_label,
-                                                           permission.codename,
-                                                           permission.content_type.model))
+                if permission.content_type.model not in permissions[group.name].keys():
+                    permissions[group.name][permission.content_type.model] = []
+                val = "{}.{}".format(permission.content_type.app_label, permission.codename)
+                permissions[group.name][permission.content_type.model].append(val)
+        yaml_file = open(path, 'w')
+        yaml.dump(permissions, yaml_file, default_flow_style=False,explicit_start=True)
         yaml_file.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def updateconfig(self, path):
         """ updateconfig file """
         permissionconfig = {}
-        self.yaml = YAML()
-        yaml = self.yaml
+        yaml_obj = YAML()
         with open(path, 'r') as stream:
-            permissionconfig = yaml.load(stream)
+            permissionconfig = yaml_obj.load(stream)
             self.config = permissionconfig
+
+        print(permissionconfig)
         for group in Group.objects.all():
             if group.name not in permissionconfig.keys():
                 self.create_comment(group.name)
             else:
-                for permission in group.permissions.all():
-                    key = "{}.{}".format(permission.content_type.app_label, permission.codename)
-                    value = permission.content_type.model
-                    if (key not in permissionconfig[group.name].keys()
-                            or permissionconfig[group.name][key] != value):
-                        self.create_comment(group.name, permission.codename,
-                                           permission.content_type.app_label,
-                                           permission.content_type.model)
+                for perm in group.permissions.all():
+                    if perm.content_type.model not in permissionconfig[group.name].keys():
+                        self.create_comment(group.name, perm.content_type.model)
+                        break
+                    else:
+                        val = "{}.{}".format(perm.content_type.app_label, perm.codename)
+                        if val not in permissionconfig[group.name][perm.content_type.model]:
+                            self.create_comment(group.name, perm.content_type.model, val)
         with open(path, 'w') as outfile:
-            yaml.dump(permissionconfig, outfile)
-
-    def create_comment(self, groupname, permissionname=None, app_label=None, model=None):
+            yaml.dump(permissionconfig,
+                      outfile,
+                      Dumper=RoundTripDumper,
+                      default_flow_style=False,
+                      explicit_start=True)
+    def create_comment(self, groupname, modelname=None, value=None):
         """ makes a comment """
-        value = "{}.{}: {}".format(app_label, permissionname, model)
         indent = 0
-
-        if permissionname != None:
+        if modelname is None:
+            self.make_comment("# {}:".format(groupname), indent)
             indent = 2
-            self.config.yaml_set_comment_before_after_key(groupname, None, None, value, indent)
-        else:
-            value = "# {}:".format(groupname)
             group = Group.objects.get(name=groupname)
-            self.make_comment(value, 0)
-            for permission in group.permissions.all():
-                value = "# {}.{}: {}\n".format(permission.content_type.app_label,
-                                               permission.codename,
-                                               permission.content_type.model)
-                self.make_comment(value, 2)
+            models = {}
+            for perm in group.permissions.all():
+                if perm.content_type.model not in models.keys():
+                    models[perm.content_type.model] = []
+                models[perm.content_type.model].append("{}.{}".format(perm.content_type.app_label,
+                                                                      perm.codename))
+            for modelname, model in list(models.items()):
+                self.make_comment("# {}:".format(modelname), indent)
+                for item in model:
+                    self.make_comment("# - {}".format(item), indent)
+        elif value is None:
+            indent = 2
+            group = Group.objects.get(name=groupname)
+            models = {}
+            self.config.yaml_set_comment_before_after_key(groupname,
+                                                          None,
+                                                          None,
+                                                          "{}:".format(modelname),
+                                                          indent)
+            for perm in group.permissions.filter(content_type__model=modelname):
+                val = "- {}.{}".format(perm.content_type.app_label, perm.codename)
+                self.config.yaml_set_comment_before_after_key(groupname,
+                                                              None,
+                                                              None,
+                                                              val,
+                                                              indent)
+        else:
+            indent = 2
+            self.config[groupname].yaml_set_comment_before_after_key(modelname,
+                                                                     None,
+                                                                     None,
+                                                                     "- {}".format(value),
+                                                                     indent)
+        
 
     def make_comment(self, value, indent):
         """ Creates a comment at the top of the file """
@@ -117,23 +161,37 @@ class Command(BaseCommand):
         self.pre_comments.append(commenttoken)
 
     def cleanup(self, path):
-        """ checks if group or permission exists in the database otherwise it deletes it from the config file """
-        yaml = YAML()
+        """ removes unused permissions and groups from config file """
         permissionconfig = {}
+        yaml_obj = YAML()
         with open(path, 'r') as stream:
-            permissionconfig = yaml.load(stream)
+            permissionconfig = yaml_obj.load(stream)
         for groupname, group in list(permissionconfig.items()):
             if Group.objects.filter(name=groupname).count() >= 1:
-                for perm, model in list(group.items()):
-                    app_label, name = perm.rsplit('.', 1)
-                    if not Group.objects.filter(name= groupname,
-                                                permissions__codename=name,
-                                                permissions__content_type__app_label=app_label,
-                                                permissions__content_type__model=model).exists():
-                        del permissionconfig[groupname][perm]
-                        self.stdout.write("Deleted permission: {}".format(name))
+                for model, perms in list(group.items()):
+                    i = len(perms) - 1
+                    while i >= 0:
+                        perm = perms[i]
+                        app_label, name = perm.rsplit('.', 1)
+                        if not Group.objects.filter(name=groupname,
+                                                    permissions__codename=name,
+                                                    permissions__content_type__app_label=app_label,
+                                                    permissions__content_type__model=model).exists():
+                            del permissionconfig[groupname][model][i]
+                            self.stdout.write("Deleted permission: {}".format(name))
+                        i -= 1
+                for model in permissionconfig[groupname]:
+                    print(model)
+                    if len(permissionconfig[groupname][model]) < 1:
+                        del permissionconfig[groupname][model]
+                        self.stdout.write("Deleted model: {}".format(name))
+
             else:
                 self.stdout.write("Deleted group: {}".format(groupname))
                 del permissionconfig[groupname]
         with open(path, 'w') as outfile:
-            yaml.dump(permissionconfig, outfile)
+            yaml.dump(permissionconfig,
+                      outfile,
+                      Dumper=RoundTripDumper,
+                      default_flow_style=False,
+                      explicit_start=True)
