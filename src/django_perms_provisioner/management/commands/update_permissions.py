@@ -2,7 +2,6 @@
 from django.contrib.auth.models import Group, ContentType, Permission
 from django.core.management import BaseCommand
 from ruamel.yaml import YAML
-from ruamel import yaml
 
 class Command(BaseCommand):
     """ update the database based on the config file """
