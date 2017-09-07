@@ -6,8 +6,6 @@ from ruamel.yaml import YAML
 class Command(BaseCommand):
     """ update the database based on the config file """
     yaml = None
-    pre_comments = []
-    config = None
     def add_arguments(self, parser):
         parser.add_argument('filename', nargs='+', type=str)
 
@@ -17,7 +15,6 @@ class Command(BaseCommand):
         permissionconfig = {}
         with open(path, 'r') as stream:
             permissionconfig = yaml_obj.load(stream)
-            self.config = permissionconfig
         for groupname, models in list(permissionconfig.items()):
             group, group_created = Group.objects.get_or_create(name=groupname)
             if group_created:
