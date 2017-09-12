@@ -1,8 +1,8 @@
 """ manage.py command """
 from django.core.management import BaseCommand
-from django_perms_provisioner.management.commands.generate_file import generate_yaml_file
-from django_perms_provisioner.management.commands.cleanup import cleanup
-from django_perms_provisioner.management.commands.updateconfig import updateconfig
+from django_perms_provisioner.generate_file import generate_yaml_file
+from django_perms_provisioner.cleanup import cleanup
+from django_perms_provisioner.updateconfig import updateconfig
 
 
 class Command(BaseCommand):
