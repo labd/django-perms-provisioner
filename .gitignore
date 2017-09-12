@@ -13,7 +13,10 @@
 /dist/
 /docs/_build/
 /htmlcov/
+virtualenv/
+codealike.json
 
 
 # Editors
 .idea/
+.vscode
