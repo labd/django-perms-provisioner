@@ -11,6 +11,7 @@ def updateconfig(path):
     permissionconfig = {}
     yaml_obj = YAML()
     config = None
+
     def create_comment(groupname, modelname=None, value=None):
         """ makes a comment """
         indent = 0
@@ -51,6 +52,7 @@ def updateconfig(path):
                                                                 None,
                                                                 "- {}".format(value),
                                                                 indent)
+
     def make_comment(value, indent):
         """ Creates a comment at the top of the file """
         pre_comments = []
@@ -61,8 +63,6 @@ def updateconfig(path):
         else:
             pre_comments = config.ca.comment[1]
         pre_comments.append(commenttoken)
-
-
     with open(path, 'r') as stream:
         permissionconfig = yaml_obj.load(stream)
         config = permissionconfig

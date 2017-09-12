@@ -2,6 +2,7 @@
 from django.contrib.auth.models import Group
 from ruamel import yaml
 
+
 def generate_yaml_file(path):
     """ Generate the yaml file """
     permissions = {}

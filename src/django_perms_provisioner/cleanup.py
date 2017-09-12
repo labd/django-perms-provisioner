@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group
 from ruamel.yaml import YAML, RoundTripDumper
 from ruamel import yaml
 
+
 def cleanup(path):
     """ removes unused permissions and groups from config file """
     permissionconfig = {}
