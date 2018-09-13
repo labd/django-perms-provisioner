@@ -2,6 +2,10 @@
 Django Permissions Provisioner
 ==============================
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/ambv/black
+
+
 This package works like the standard Django loaddata / dumpdata commands only
 it's used for creating auth.Group objects with their provided permissions.
 
@@ -17,9 +21,17 @@ Installation
 Usage
 =====
 
+To load permissions from a configuration file
+
 .. code-block:: shell
 
    ./manage.py loadperms permissions.yaml
+
+
+Or to dump permissions to a configuration file
+
+.. code-block:: shell
+
    ./manage.py dumpperms > permissions.yaml
 
 
@@ -27,7 +39,8 @@ Configuration
 =============
 
 Configuration can either be done via providing a ``YAML`` or ``JSON`` file. Your
-file needs to have one of the following extensions: .json, .yaml, .yml.
+file needs to have one of the following extensions: .json, .yaml, .yml, and
+their approriate contents of course.
 
 Examples:
 

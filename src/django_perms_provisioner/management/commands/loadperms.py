@@ -53,6 +53,8 @@ class Command(BaseCommand):
                 # contents of the file have passed the schema vaildation
                 self.create_groups_with_permissions(file_contents["groups"])
 
+        self.stdout.write(self.style.SUCCESS("Successfully loaded all permissions"))
+
     def load_and_validate_file(self, permissions_file) -> Optional[dict]:
         """Load and validate the file contents.
 
@@ -78,6 +80,9 @@ class Command(BaseCommand):
             self.stderr.write(self.validator.errors)
             return None
 
+        self.stdout.write(
+            f"Permissions file ({permissions_file}) validated successfully"
+        )
         return file_content
 
     def create_groups_with_permissions(self, groups: dict):
