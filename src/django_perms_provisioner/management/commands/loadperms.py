@@ -3,11 +3,11 @@ import os
 from typing import Optional
 
 import yaml
+from cerberus import Validator
 from django.contrib.auth.models import Group, Permission
 from django.core.management import BaseCommand
 from django.db import transaction
 
-from cerberus import Validator
 from django_perms_provisioner.management.schemas import PERMISSIONS_SCHEMA
 
 FILE_CONTENT_LOADER = {"json": json.loads, "yaml": yaml.load, "yml": yaml.load}

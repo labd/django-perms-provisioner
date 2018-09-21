@@ -18,6 +18,16 @@ Installation
    pip install django_perms_provisioner
 
 
+Then the only thing left before you can start using the ``Django Permissions
+Provisioner`` is adding it to you installed apps.
+
+.. code-block:: python
+
+  INSTALLED_APPS = [
+      "django_perms_provisioner",
+  ]
+
+
 Usage
 =====
 
@@ -57,7 +67,7 @@ Examples:
             - admin.access_admin
 
 
-.. code-block:: json
+.. code-block:: javascript
 
    {
      "groups" [
