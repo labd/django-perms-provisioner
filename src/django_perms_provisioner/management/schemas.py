@@ -15,7 +15,7 @@ PERMISSIONS_SCHEMA = {
                         "schema": {
                             "required": True,
                             "type": "string",
-                            "regex": "^[a-z0-9]+\.[a-z0-9]+\_[a-z0-9]+$",
+                            "regex": "^[a-z0-9]+.[a-z0-9]+_[a-z0-9]+$",
                         },
                     },
                 },

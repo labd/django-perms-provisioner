@@ -1,3 +1,10 @@
+(unreleased)
+============
+ - Add unit tests for loadperms happy flow
+ - Add unit tests for dumpperms happy flow
+ - Update schemas.PERMISSIONS_SCHEMA to remove deprecation warnings
+ - Update README file with clear instructions
+
 0.0.1 (2018-09-21)
 ==================
  - Initial release with support for JSON and YAML

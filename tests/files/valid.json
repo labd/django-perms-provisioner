@@ -1,0 +1,19 @@
+{
+  "groups": [
+    {
+      "name": "Group Admin",
+      "permissions": {
+        "auth": ["group.add_group", "group.change_group", "group.delete_group"]
+      }
+    },
+    {
+      "name": "User Admin",
+      "permissions": {
+        "auth": ["user.add_user", "user.change_user", "user.delete_user"]
+      }
+    },
+    {
+      "name": "Only Group"
+    }
+  ]
+}

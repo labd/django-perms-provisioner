@@ -1,5 +1,4 @@
 import json
-from collections import defaultdict
 
 import yaml
 from django.contrib.auth.models import Group
@@ -7,6 +6,12 @@ from django.core.management import BaseCommand
 
 
 def dump_data_to_yaml(data, indent=None):
+    """Wrapper around yaml.safe_dump for extra args.
+
+    To create a better (human) readable YAML format, this wrapper ensures the
+    default_flow_style=False kwarg is always provided to yaml.safe_dump.
+
+    """
     return yaml.safe_dump(data, indent=indent, default_flow_style=False)
 
 
@@ -14,7 +19,7 @@ DATA_DUMPER = {"json": json.dumps, "yaml": dump_data_to_yaml, "yml": dump_data_t
 
 
 class Command(BaseCommand):
-    """Dump groups and permissions data to stdout."""
+    help = "Dump all groups and permissions to stdout"
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -30,6 +35,16 @@ class Command(BaseCommand):
         )
 
     def handle(self, **options):
+        """Ouput all groups and permissions in the DB.
+
+        Dumps all groups and permissions to stdout, this can be saved to a file
+        by adding ``> filename`` this file is compatible with the ``loadperms``
+        command.
+
+        Usage:
+            ./manage.py dumpperms --format=<json|yaml> --indent=2
+
+        """
         format = options["format"]
         indent = options["indent"]
 

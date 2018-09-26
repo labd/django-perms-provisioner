@@ -10,7 +10,7 @@ from django.db import transaction
 
 from django_perms_provisioner.management.schemas import PERMISSIONS_SCHEMA
 
-FILE_CONTENT_LOADER = {"json": json.loads, "yaml": yaml.load, "yml": yaml.load}
+FILE_CONTENT_LOADER = {"json": json.load, "yaml": yaml.load, "yml": yaml.load}
 
 
 class Command(BaseCommand):
@@ -44,7 +44,9 @@ class Command(BaseCommand):
             permissions_file = os.path.join(os.path.curdir, permissions_file)
 
             if not os.path.isfile(permissions_file):
-                self.stderr.write(f"Permissions file ({permissions_file}) not found")
+                self.stderr.write(
+                    self.style.ERROR(f"Permissions file ({permissions_file}) not found")
+                )
                 continue
 
             file_contents = self.load_and_validate_file(permissions_file)
@@ -68,7 +70,7 @@ class Command(BaseCommand):
         filename, ext = os.path.splitext(permissions_file)
 
         if ext[1:] not in FILE_CONTENT_LOADER.keys():
-            self.stdout.write(f"No loader found for extension: {ext}")
+            self.stdout.write(self.style.ERROR(f"No loader found for extension: {ext}"))
             return None
 
         loader = FILE_CONTENT_LOADER[ext[1:]]
@@ -76,12 +78,18 @@ class Command(BaseCommand):
             file_content = loader(stream)
 
         if not self.validator.validate(file_content):
-            self.stderr.write(f"Permissions file ({permissions_file}) did not validate")
-            self.stderr.write(self.validator.errors)
+            self.stderr.write(
+                self.style.ERROR(
+                    f"Permissions file ({permissions_file}) did not validate"
+                )
+            )
+            self.stderr.write(self.style.ERROR(self.validator.errors))
             return None
 
         self.stdout.write(
-            f"Permissions file ({permissions_file}) validated successfully"
+            self.style.SUCCESS(
+                f"Permissions file ({permissions_file}) validated successfully"
+            )
         )
         return file_content
 
@@ -99,12 +107,19 @@ class Command(BaseCommand):
         for group in groups:
             group_obj, created = Group.objects.get_or_create(name=group["name"])
             if created:
-                self.stdout.write(f"Group {group['name']} created successfully.")
+                self.stdout.write(
+                    self.style.SUCCESS(f"Group {group['name']} created successfully.")
+                )
             else:
-                self.stdout.write(f"Group {group['name']} already exists.")
+                self.stdout.write(
+                    self.style.SUCCESS(f"Group {group['name']} already exists.")
+                )
 
             if "permissions" not in group:
-                self.stdout.write(f"No permissions defined for {group['name']}")
+                group_name = group["name"]
+                self.stdout.write(
+                    self.style.WARNING(f"No permissions defined for {group_name}")
+                )
             else:
                 # Create a list with all permission objects to add to the group
                 permission_list = []
@@ -117,7 +132,9 @@ class Command(BaseCommand):
 
                 if not permission_list:
                     self.stdout.write(
-                        f"No valid permissions found for {app_label}, nothing to do."
+                        self.style.WARNING(
+                            f"No valid permissions found for {app_label}, nothing to do."
+                        )
                     )
                 else:
                     group_obj.permissions.set(permission_list)
@@ -139,10 +156,14 @@ class Command(BaseCommand):
                 )
             except Permission.DoesNotExist:
                 self.stderr.write(
-                    f"Permission ({codename}, {app_label}, {model_name}) not found."
+                    self.style.ERROR(
+                        f"Permission ({codename}, {app_label}, {model_name}) not found."
+                    )
                 )
                 continue
             else:
-                self.stdout.write(f"Adding permission ({permission_obj})")
+                self.stdout.write(
+                    self.style.SUCCESS(f"Adding permission ({permission_obj})")
+                )
                 permission_list.append(permission_obj)
         return permission_list
