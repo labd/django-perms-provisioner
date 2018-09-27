@@ -81,6 +81,7 @@ Examples:
 It is also possible to only create groups this can be done by just leaving out
 the permissions.
 
+
 Example:
 
 .. code-block:: yaml
