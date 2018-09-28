@@ -40,6 +40,7 @@ class Command(BaseCommand):
     @transaction.atomic()
     def handle(self, permission_files, **options):
         """Validate and process all provided files."""
+        processed_files = 0
         for permissions_file in permission_files:
             permissions_file = os.path.join(os.path.curdir, permissions_file)
 
@@ -54,8 +55,10 @@ class Command(BaseCommand):
                 # We can safely assume the groups key is available, since the
                 # contents of the file have passed the schema vaildation
                 self.create_groups_with_permissions(file_contents["groups"])
+                processed_files += 1
 
-        self.stdout.write(self.style.SUCCESS("Successfully loaded all permissions"))
+        if processed_files > 0:
+            self.stdout.write(self.style.SUCCESS("Successfully loaded all permissions"))
 
     def load_and_validate_file(self, permissions_file) -> Optional[dict]:
         """Load and validate the file contents.
