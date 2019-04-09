@@ -22,7 +22,7 @@ setup(
     url="https://github.com/labd/django-perms-provisioner",
     author="Lab Digital",
     author_email="opensource@labdigital.nl",
-    install_requires=["Cerberus==1.2", "Django>=1.11", "PyYAML==3.13"],
+    install_requires=["Cerberus==1.2", "Django>=1.11", "PyYAML==5.1"],
     tests_require=tests_require,
     extras_require={"docs": docs_require, "test": tests_require},
     use_scm_version=True,
