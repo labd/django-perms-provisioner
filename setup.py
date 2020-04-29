@@ -3,15 +3,17 @@ from setuptools import find_packages, setup
 docs_require = ["sphinx>=1.4.0"]
 
 tests_require = [
-    "coverage==4.5.1",
-    "pytest==3.8.1",
-    "pytest-cov==2.6.0",
-    "pytest-django==3.4.3",
+    "coverage[toml]==5.0.3",
+    "pytest>=3.8.1",
+    "pytest-cov>=2.6.0",
+    "pytest-django>=3.4.3",
+
     # Linting
-    "isort==4.2.5",
-    "flake8==3.5.0",
-    "flake8-blind-except==0.1.1",
-    "flake8-debugger==3.1.0",
+    "isort[pyproject]==4.3.21",
+    'flake8==3.0.3',
+    'flake8-blind-except==0.1.1',
+    'flake8-debugger==1.4.0',
+    'flake8-imports',
 ]
 
 setup(
