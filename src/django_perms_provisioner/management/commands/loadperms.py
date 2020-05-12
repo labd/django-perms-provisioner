@@ -9,11 +9,7 @@ from django.core.management import BaseCommand
 from django.db import transaction
 from django_perms_provisioner.management.schemas import PERMISSIONS_SCHEMA
 
-FILE_CONTENT_LOADER = {
-    "json": json.load,
-    "yaml": yaml.safe_load,
-    "yml": yaml.safe_load
-}
+FILE_CONTENT_LOADER = {"json": json.load, "yaml": yaml.safe_load, "yml": yaml.safe_load}
 
 
 class Command(BaseCommand):
