@@ -5,8 +5,8 @@ import pytest
 import yaml
 from django.core.management import call_command
 
-FILE_LOADER_MAPPING = {"yaml": yaml.load, "json": json.load}
-STR_LOADER_MAPPING = {"yaml": yaml.load, "json": json.loads}
+FILE_LOADER_MAPPING = {"yaml": yaml.safe_load, "json": json.load}
+STR_LOADER_MAPPING = {"yaml": yaml.safe_load, "json": json.loads}
 
 
 @pytest.mark.django_db

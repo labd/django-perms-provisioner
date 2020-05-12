@@ -9,8 +9,8 @@ PERMISSIONS_SCHEMA = {
                 "permissions": {
                     "required": False,
                     "type": "dict",
-                    "keyschema": {"required": True, "type": "string"},
-                    "valueschema": {
+                    "keysrules": {"required": True, "type": "string"},
+                    "valuesrules": {
                         "type": "list",
                         "schema": {
                             "required": True,
