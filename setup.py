@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 docs_require = ["sphinx>=1.4.0"]
 
 tests_require = [
-    "coverage==4.5.1",
+    "coverage",
     "pytest==3.8.1",
     "pytest-cov==2.6.0",
     "pytest-django==3.4.3",
