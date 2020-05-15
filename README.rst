@@ -5,6 +5,9 @@ Django Permissions Provisioner
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/ambv/black
 
+.. image:: https://github.com/labd/django-perms-provisioner/workflows/Python%20Tests/badge.svg
+    :target: https://github.com/labd/django-perms-provisioner/actions
+
 .. image:: https://travis-ci.org/labd/django-perms-provisioner.svg?branch=master
     :target: https://travis-ci.org/labd/django-perms-provisioner
 
