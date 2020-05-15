@@ -1,9 +1,16 @@
-(unreleased)
-============
+0.0.4 (2020-05-15)
+==================
+ - Update PyYAML to resolve security issues
+ - Implement GitHub actions for testing / releasing
+
+
+0.0.3
+=====
  - Add unit tests for loadperms happy flow
  - Add unit tests for dumpperms happy flow
  - Update schemas.PERMISSIONS_SCHEMA to remove deprecation warnings
  - Update README file with clear instructions
+
 
 0.0.1 (2018-09-21)
 ==================
