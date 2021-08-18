@@ -25,7 +25,6 @@ setup(
     install_requires=["Cerberus>=1.3.2,<2", "Django>=1.11", "PyYAML>=5.3.1,<6"],
     tests_require=tests_require,
     extras_require={"docs": docs_require, "test": tests_require},
-    use_scm_version=True,
     entry_points={},
     package_dir={"": "src"},
     packages=find_packages("src"),
