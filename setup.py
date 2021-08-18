@@ -16,7 +16,7 @@ tests_require = [
 
 setup(
     name="django-perms-provisioner",
-    version="0.0.4",
+    version="0.0.5",
     description="Provision django instances with usergroups and permissions",
     long_description=open("README.rst", "r").read(),
     url="https://github.com/labd/django-perms-provisioner",
