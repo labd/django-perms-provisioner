@@ -23,4 +23,5 @@ def pytest_configure():
         DATABASES={
             "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "db.sqlite"}
         },
+        SECRET_KEY="test",
     )
