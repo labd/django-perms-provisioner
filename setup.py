@@ -1,6 +1,5 @@
 from setuptools import find_packages, setup
 
-docs_require = ["sphinx>=1.4.0"]
 
 tests_require = [
     "coverage",
@@ -24,7 +23,7 @@ setup(
     author_email="opensource@labdigital.nl",
     install_requires=["Cerberus>=1.3.2,<2", "Django>=1.11", "PyYAML>=5.3.1,<7"],
     tests_require=tests_require,
-    extras_require={"docs": docs_require, "test": tests_require},
+    extras_require={"test": tests_require},
     entry_points={},
     package_dir={"": "src"},
     packages=find_packages("src"),
