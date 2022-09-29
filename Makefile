@@ -1,8 +1,8 @@
-.PHONY: install test upload docs
+.PHONY: install test
 
 
 install:
-	pip install -e .[docs,test]
+	pip install -e .[test]
 
 test:
 	py.test
@@ -15,11 +15,3 @@ coverage:
 
 lint:
 	flake8 src/
-
-docs:
-	$(MAKE) -C docs html
-
-release:
-	rm -rf dist/*
-	python setup.py sdist bdist_wheel
-	twine upload dist/*
