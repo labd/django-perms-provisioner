@@ -152,7 +152,7 @@ class Command(BaseCommand):
         """
         permission_list = []
         for permission in permissions:
-            model_name, codename = permission.split(".")
+            model_name, codename = permission.split(".", 1)
             try:
                 permission_obj = Permission.objects.get_by_natural_key(
                     codename, app_label, model_name
