@@ -33,6 +33,12 @@ class Command(BaseCommand):
             default=2,
             help="Specifies the indent level to use when pretty-printing output.",
         )
+        parser.add_argument(
+            "--sort", "-S",
+            action="store_true",
+            help="Sort output keys.",
+        )
+
 
     def handle(self, **options):
         """Ouput all groups and permissions in the DB.
@@ -47,6 +53,7 @@ class Command(BaseCommand):
         """
         format = options["format"]
         indent = options["indent"]
+        sort = options["sort"]
 
         if format not in DATA_DUMPER.keys():
             available_formats = ", ".join(DATA_DUMPER.keys())
@@ -58,7 +65,8 @@ class Command(BaseCommand):
             return
 
         groups_permissions_data = []
-        for group in Group.objects.all():
+        groups = Group.objects.all() if not sort else Group.objects.order_by("name")
+        for group in groups:
             group_data = {"name": group.name}
 
             if group.permissions.exists():
@@ -72,6 +80,9 @@ class Command(BaseCommand):
                     group_data["permissions"][app_label].append(
                         f"{model_name}.{codename}"
                     )
+
+            if sort:
+                group_data = dict(sorted(group_data.items()))
 
             groups_permissions_data.append(group_data)
 
