@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 
 tests_require = [
     "coverage",
-    "pytest==7.1.3",
+    "pytest==9.0.3",
     "pytest-cov==3.0.0",
     "pytest-django==4.5.2",
     # Linting
