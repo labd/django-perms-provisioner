@@ -2,8 +2,8 @@
 Django Permissions Provisioner
 ==============================
 
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-    :target: https://github.com/ambv/black
+.. image:: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
+    :target: https://github.com/astral-sh/ruff
 
 .. image:: https://github.com/labd/django-perms-provisioner/workflows/Python%20Tests/badge.svg
     :target: https://github.com/labd/django-perms-provisioner/actions

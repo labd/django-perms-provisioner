@@ -7,10 +7,7 @@ tests_require = [
     "pytest-cov==3.0.0",
     "pytest-django==4.5.2",
     # Linting
-    "isort==5.10.1",
-    "flake8==5.0.4",
-    "flake8-blind-except==0.2.1",
-    "flake8-debugger==4.1.2",
+    "ruff",
 ]
 
 setup(
