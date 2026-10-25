@@ -11,9 +11,6 @@ Django Permissions Provisioner
 .. image:: https://travis-ci.org/labd/django-perms-provisioner.svg?branch=master
     :target: https://travis-ci.org/labd/django-perms-provisioner
 
-.. image:: http://codecov.io/github/labd/django-perms-provisioner/coverage.svg?branch=master
-    :target: http://codecov.io/github/labd/django-perms-provisioner?branch=master
-
 .. image:: https://img.shields.io/pypi/v/django-perms-provisioner.svg
     :target: https://pypi.org/project/django-perms-provisioner/
 
