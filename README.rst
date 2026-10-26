@@ -19,8 +19,8 @@ it's used for creating auth.Group objects with their provided permissions.
 Requirements
 ============
 
- - Python >= 3.6
- - Django >= 1.11
+ - Python >= 3.11
+ - Django >= 5.2
 
 Installation
 ============
