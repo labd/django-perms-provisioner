@@ -29,7 +29,7 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/labd/django-perms-provisioner"
-Changelog = "https://github.com/labd/django-perms-provisioner/blob/master/CHANGES"
+Changelog = "https://github.com/labd/django-perms-provisioner/blob/master/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
@@ -64,6 +64,7 @@ packages = ["src/django_perms_provisioner"]
 include = [
     "src/django_perms_provisioner",
     "tests",
+    "CHANGELOG.md",
     "CHANGES",
     "LICENSE",
     "README.rst",

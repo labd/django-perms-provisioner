@@ -104,3 +104,18 @@ Or to dump permissions to a configuration file
 .. code-block:: shell
 
    ./manage.py dumpperms > permissions.yaml
+
+
+Releasing
+=========
+
+Changes are tracked with `changie <https://changie.dev/>`_. Add a changelog
+entry to every pull request with a user-facing change:
+
+.. code-block:: shell
+
+   changie new
+
+When entries are merged to the default branch, a release pull request is
+opened (or updated) automatically. Merging that pull request tags the release,
+creates the GitHub release and publishes the package to PyPI.
