@@ -1,18 +1,26 @@
-.PHONY: install test
+.PHONY: install test retest coverage lint format release
 
 
 install:
-	pip install -e .[test]
+	uv sync
 
 test:
-	py.test
+	uv run pytest
 
 retest:
-	py.test -vvv --lf
+	uv run pytest -vvv --lf
 
 coverage:
-	py.test --cov=django_perms_provisioner --cov-report=term-missing --cov-report=html
+	uv run pytest --cov=django_perms_provisioner --cov-report=term-missing --cov-report=html
 
 lint:
-	ruff format --check src tests
-	ruff check src tests
+	uv run ruff format --check src tests
+	uv run ruff check src tests
+
+format:
+	uv run ruff format src tests
+	uv run ruff check --fix src tests
+
+release:
+	rm -rf dist/*
+	uv build
