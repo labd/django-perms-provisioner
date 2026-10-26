@@ -2,17 +2,14 @@
 Django Permissions Provisioner
 ==============================
 
+.. image:: https://img.shields.io/pypi/v/django-perms-provisioner.svg
+    :target: https://pypi.org/project/django-perms-provisioner/
+
 .. image:: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
     :target: https://github.com/astral-sh/ruff
 
-.. image:: https://github.com/labd/django-perms-provisioner/workflows/Python%20Tests/badge.svg
-    :target: https://github.com/labd/django-perms-provisioner/actions
-
-.. image:: https://travis-ci.org/labd/django-perms-provisioner.svg?branch=master
-    :target: https://travis-ci.org/labd/django-perms-provisioner
-
-.. image:: https://img.shields.io/pypi/v/django-perms-provisioner.svg
-    :target: https://pypi.org/project/django-perms-provisioner/
+.. image:: https://github.com/labd/django-perms-provisioner/actions/workflows/python-test.yml/badge.svg
+    :target: https://github.com/labd/django-perms-provisioner/actions/workflows/python-test.yml
 
 
 This package works like the standard Django loaddata / dumpdata commands only
